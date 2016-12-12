@@ -2,23 +2,22 @@
 using System.Linq;
 using finance_home_system.Products;
 using System;
-using finance_home_system.Category;
+using finance_home_system.Categories;
 using Api.Contexts;
 
 namespace CategoryApi.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {
-        static List<Products> ProductsList = new List<Products>();
-        Context _context;
-
+        private readonly Context _context;
+        static List<Category> Category = new List<Category>();
         public CategoryRepository(Context context)
         {
             _context = context;
         }
-        public IEnumerable<categoryList> GetCategory()
+        public IEnumerable<Category> GetAll()
         {
-            return _context.categoryList.ToList();
+            return _context.Category.AsEnumerable();
         }
     }
 }

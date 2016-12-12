@@ -11,6 +11,9 @@ using Newtonsoft.Json.Serialization;
 using ProductsApi.Repository;
 using Api.Contexts;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using CategoryApi.Repository;
 
 namespace finance_home_system
@@ -32,24 +35,36 @@ namespace finance_home_system
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddDbContext<Context>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             // Add framework services.
             services.AddMvc()
-                    .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver()); ;
+                    .AddJsonOptions(a => a.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
             //using Dependency Injection
-            services.AddSingleton<IProductsRepository, ProductsRepository>();
-            services.AddSingleton<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseCors(builder =>
+            builder
+            .AllowAnyOrigin()
+           .AllowAnyHeader()
+           .AllowAnyMethod()
+           .AllowCredentials()
+           .SetPreflightMaxAge(TimeSpan.FromSeconds(2520))
+    );
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseMvc();
+            
         }
     }
 }

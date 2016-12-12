@@ -1,10 +1,10 @@
-﻿using finance_home_system.Category;
+﻿using finance_home_system.Categories;
 using System.Collections.Generic;
 
 namespace CategoryApi.Repository
 {
     public interface ICategoryRepository
     {
-        IEnumerable<categoryList> GetCategory();
+        IEnumerable<Category> GetAll();
     }
 }

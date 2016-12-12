@@ -1,13 +1,11 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace finance_home_system.Category
+using finance_home_system.Products;
+namespace finance_home_system.Categories
 {
-    public class categoryList
+    public class Category: IEntityBase
     {
-        public int categoryListId { get; set; }
-        public string Category { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

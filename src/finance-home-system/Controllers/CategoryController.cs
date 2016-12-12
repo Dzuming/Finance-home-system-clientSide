@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 
 using System.Collections.Generic;
-using finance_home_system.Category;
+using finance_home_system.Categories;
+using ProductsApi.Repository;
 
 namespace CategoryApi.Controllers
 {
@@ -17,9 +18,9 @@ namespace CategoryApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<categoryList> GetCategory()
+        public IEnumerable<Category> GetAll()
         {
-            return CategoryRepo.GetCategory();
+            return CategoryRepo.GetAll();
         }
     }
 }

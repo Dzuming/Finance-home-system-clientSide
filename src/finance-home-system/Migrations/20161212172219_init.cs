@@ -10,52 +10,53 @@ namespace financehomesystem.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "categoryList",
+                name: "Category",
                 columns: table => new
                 {
-                    categoryListId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Category = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_categoryList", x => x.categoryListId);
+                    table.PrimaryKey("PK_Category", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Product",
                 columns: table => new
                 {
-                    ProductsId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DateCreated = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2016, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)),
                     Name = table.Column<string>(nullable: true),
                     Spending = table.Column<int>(nullable: false),
-                    categoryListId = table.Column<int>(nullable: false)
+                    categoryId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.ProductsId);
+                    table.PrimaryKey("PK_Product", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_categoryList_categoryListId",
-                        column: x => x.categoryListId,
-                        principalTable: "categoryList",
-                        principalColumn: "categoryListId",
+                        name: "FK_Product_Category_categoryId",
+                        column: x => x.categoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_categoryListId",
-                table: "Products",
-                column: "categoryListId");
+                name: "IX_Product_categoryId",
+                table: "Product",
+                column: "categoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Product");
 
             migrationBuilder.DropTable(
-                name: "categoryList");
+                name: "Category");
         }
     }
 }
